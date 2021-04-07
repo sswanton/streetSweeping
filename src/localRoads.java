@@ -1,3 +1,5 @@
+import org.jetbrains.annotations.NotNull;
+
 import java.time.DayOfWeek;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -11,7 +13,9 @@ public class localRoads {
         roadSet = (HashSet<IRoadwayImpl>) this.populateRoadSet();
     }
 
-    public Set<IRoadwayImpl> populateRoadSet() {
+    //TODO: Not hardcode this. Look into pinging https://www.somervillema.gov/sweeping
+    // Never heard back when I reached out asking about a public API
+    private Set<IRoadwayImpl> populateRoadSet() {
         HashSet<Integer> firstAndThird = new HashSet<>();
         firstAndThird.add(1);
         firstAndThird.add(3);
@@ -49,11 +53,26 @@ public class localRoads {
         return localRoads;
     }
 
-    public String whereNoPark(Calendar now) {
+    /**
+     * Facilitates giving a heads up the day before a midnight-start time
+     *
+     * @param road roadway object containing all relevant info
+     * @return the day of the week in integer form. the DayOfWeek is not the same as Calendar.DAY_OF_WEEK
+     */
+    private int overnightCheck(IRoadwayImpl road) {
+        int dayOfTheWeek = road.getSweepDateAndTime().getDay().getValue();
+        if (road.getSweepDateAndTime().getSweepTime() == SweepTime.overnightMidnightToSix) {
+            return dayOfTheWeek;
+        } else {
+            return dayOfTheWeek + 1;
+        }
+    }
+
+
+    public String whereNoPark(@NotNull Calendar now) {
         int today = now.get(Calendar.DAY_OF_WEEK);
         for (IRoadwayImpl road : this.roadSet) {
-            int applicableDay = road.getSweepDateAndTime().getDay().getValue();
-            if (applicableDay == today) {
+            if (overnightCheck(road) == today) {
                 if (road.getSweepDateAndTime().getWeeks() == null) {
                     return ("ALERT DON'T PARK ON THE " + road.getSideOfRoad() + " side of " + road.getRoadwayName());
                 } else {

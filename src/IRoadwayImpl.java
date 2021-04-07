@@ -1,8 +1,3 @@
-import java.time.DayOfWeek;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
-
 public class IRoadwayImpl implements IRoadway {
 
     private String roadwayName;
@@ -57,4 +52,13 @@ public class IRoadwayImpl implements IRoadway {
         this.sweepDateAndTime = sweepTime;
     }
 
+    @Override
+    public String toString() {
+        return "IRoadwayImpl{" +
+                "roadwayName='" + roadwayName + '\'' +
+                ", roadCenterGPS=" + roadCenterGPS +
+                ", sideOfRoad='" + sideOfRoad + '\'' +
+                ", sweepDateAndTime=" + sweepDateAndTime +
+                '}';
+    }
 }

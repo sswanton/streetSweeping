@@ -1,15 +1,23 @@
-import java.time.DayOfWeek;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 
 public class noMoreTickets {
 
     public static void main(String[] args) {
-
         Calendar now = Calendar.getInstance();
-        localRoads roadways = new localRoads();
-        System.out.println(roadways.whereNoPark(now));
+
+        Calendar beginSweeping = Calendar.getInstance();
+        beginSweeping.set(now.get(Calendar.YEAR), Calendar.JANUARY, 1);
+        Calendar endSweeping = Calendar.getInstance();
+        endSweeping.set(now.get(Calendar.YEAR), Calendar.MARCH, 31);
+
+        if (now.before(endSweeping) && now.after(beginSweeping)) {
+            System.out.println("Street Sweeping is not in effect currently.");
+        } else {
+            localRoads roadways = new localRoads();
+            System.out.println(roadways.whereNoPark(now));
+        }
 
     }
 }

@@ -25,4 +25,12 @@ public class SweepOccurrence {
         return weeks;
     }
 
+    @Override
+    public String toString() {
+        return "SweepOccurrence{" +
+                "day=" + day +
+                ", sweepTime=" + sweepTime +
+                ", weeks=" + weeks +
+                '}';
+    }
 }
